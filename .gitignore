@@ -2,6 +2,10 @@
 .agents/
 .claude/
 
+# Documentação interna (não versionar)
+CLAUDE.md
+PRD.md
+
 # Python
 .venv/
 __pycache__/
