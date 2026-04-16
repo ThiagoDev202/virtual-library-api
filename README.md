@@ -150,6 +150,33 @@ curl -X DELETE http://localhost:8000/api/v1/books/b3f4e8c2-8a4d-4a5a-9c1f-1a2b3c
 # 204 No Content
 ```
 
+### Validação de persistência
+
+Para confirmar que os dados sobrevivem a reinícios do container:
+
+```bash
+docker compose up -d --build
+
+curl -X POST http://localhost:8000/api/v1/books \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Persistencia Teste",
+    "author": "QA",
+    "published_date": "2026-04-16",
+    "summary": "Registro de teste para validar persistencia entre reinicios do compose."
+  }'
+
+docker compose down
+docker compose up -d
+
+curl "http://localhost:8000/api/v1/books?title=persistencia"
+# O livro criado antes do down deve aparecer na resposta.
+
+docker compose down
+```
+
+O arquivo `./data/library.db` é montado como volume e preserva os dados entre execuções.
+
 ---
 
 ## Documentação interativa
