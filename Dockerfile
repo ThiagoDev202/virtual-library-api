@@ -17,8 +17,9 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-# Cria usuário não-root para segurança
-RUN addgroup --system appgroup && adduser --system --ingroup appgroup appuser
+# Cria usuário não-root para segurança (UID/GID 1000 alinha com usuário padrão do host
+# em bind mounts tipo ./data:/app/data)
+RUN addgroup --system --gid 1000 appgroup && adduser --system --uid 1000 --ingroup appgroup appuser
 
 # Copia o ambiente virtual gerado no builder
 COPY --from=builder /app/.venv /app/.venv
