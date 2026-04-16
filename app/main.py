@@ -1,9 +1,17 @@
 """Ponto de entrada da aplicação FastAPI."""
 
+import logging
+
 from fastapi import FastAPI
 
 from app.api.v1 import api_router
+from app.core.config import settings
 from app.core.exceptions import register_exception_handlers
+
+logging.basicConfig(
+    level=settings.LOG_LEVEL,
+    format="%(asctime)s %(levelname)s %(name)s - %(message)s",
+)
 
 app = FastAPI(
     title="Virtual Library API",
